@@ -294,7 +294,7 @@ function getDomDepth(dom, idx) {
     //}
 
     //orgDom.setAttribute("_depth", depth + "_" + zIndex + "_" + idx);
-    var result = idx * 1000 + parseInt(zIndex, 10) + depth;
+    var result = depth * 100000 + parseInt(zIndex, 10) * 1000 + idx;
     orgDom.setAttribute("_result", result);
     return result;
 }
