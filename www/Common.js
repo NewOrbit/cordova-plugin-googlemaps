@@ -294,7 +294,7 @@ function getDomDepth(dom, idx) {
     //}
 
     //orgDom.setAttribute("_depth", depth + "_" + zIndex + "_" + idx);
-    var result = depth * 100000 + parseInt(zIndex, 10) * 1000 + idx;
+    var result = parseInt(zIndex, 10) * 100000 + depth * 1000 + idx;
     orgDom.setAttribute("_result", result);
     return result;
 }
@@ -523,6 +523,7 @@ function convertToPositionArray(array) {
 }
 
 module.exports = {
+    getZIndex: getZIndex,
     getDomDepth: getDomDepth,
     deleteFromObject: deleteFromObject,
     getDivRect: getDivRect,
