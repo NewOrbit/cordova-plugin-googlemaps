@@ -76,7 +76,9 @@ public class PluginPolyline extends MyPlugin implements MyPluginInterface  {
         self.objects.put(id, polyline);
 
         String boundsId = "polyline_bounds_" + polyline.getId();
-        self.objects.put(boundsId, builder.build());
+        try {
+          self.objects.put(boundsId, builder.build());
+        } catch (IllegalStateException ex) {}
 
         String propertyId = "polyline_property_" + polyline.getId();
         self.objects.put(propertyId, properties);
@@ -258,7 +260,7 @@ public class PluginPolyline extends MyPlugin implements MyPluginInterface  {
       }
     });
   }
-  public void removePointAt(final JSONArray args, CallbackContext callbackContext) throws JSONException {
+  public void removePointAt(final JSONArray args, final CallbackContext callbackContext) throws JSONException {
 
     String id = args.getString(0);
     final int index = args.getInt(1);
@@ -271,19 +273,21 @@ public class PluginPolyline extends MyPlugin implements MyPluginInterface  {
       @Override
       public void run() {
         List<LatLng> path = polyline.getPoints();
-        path.remove(index);
-        if (path.size() > 0) {
-          self.objects.put(propertyId, PluginUtil.getBoundsFromPath(path));
-        } else {
-          self.objects.remove(propertyId);
+        if (path.size() > index) {
+          path.remove(index);
+          if (path.size() > 0) {
+            self.objects.put(propertyId, PluginUtil.getBoundsFromPath(path));
+          } else {
+            self.objects.remove(propertyId);
+          }
+
+          polyline.setPoints(path);
         }
-
-        polyline.setPoints(path);
+        sendNoResult(callbackContext);
       }
     });
-    this.sendNoResult(callbackContext);
   }
-  public void insertPointAt(final JSONArray args, CallbackContext callbackContext) throws JSONException {
+  public void insertPointAt(final JSONArray args, final CallbackContext callbackContext) throws JSONException {
 
     String id = args.getString(0);
     final int index = args.getInt(1);
@@ -300,14 +304,16 @@ public class PluginPolyline extends MyPlugin implements MyPluginInterface  {
       @Override
       public void run() {
         List<LatLng> path = polyline.getPoints();
-        path.add(index, latLng);
-        polyline.setPoints(path);
-        self.objects.put(propertyId, PluginUtil.getBoundsFromPath(path));
+        if (path.size() > index) {
+          path.add(index, latLng);
+          polyline.setPoints(path);
+          self.objects.put(propertyId, PluginUtil.getBoundsFromPath(path));
+        }
+        sendNoResult(callbackContext);
       }
     });
-    this.sendNoResult(callbackContext);
   }
-  public void setPointAt(final JSONArray args, CallbackContext callbackContext) throws JSONException {
+  public void setPointAt(final JSONArray args, final CallbackContext callbackContext) throws JSONException {
 
     String id = args.getString(0);
     final int index = args.getInt(1);
@@ -321,16 +327,18 @@ public class PluginPolyline extends MyPlugin implements MyPluginInterface  {
       @Override
       public void run() {
         List<LatLng> path = polyline.getPoints();
-        path.set(index, latLng);
+        if (path.size() > index) {
+          path.set(index, latLng);
 
-        // Recalculate the polygon bounds
-        String propertyId = "polyline_bounds_" + polyline.getId();
-        self.objects.put(propertyId, PluginUtil.getBoundsFromPath(path));
+          // Recalculate the polygon bounds
+          String propertyId = "polyline_bounds_" + polyline.getId();
+          self.objects.put(propertyId, PluginUtil.getBoundsFromPath(path));
 
-        polyline.setPoints(path);
+          polyline.setPoints(path);
+        }
+        sendNoResult(callbackContext);
       }
     });
-    this.sendNoResult(callbackContext);
   }
 
   /**
