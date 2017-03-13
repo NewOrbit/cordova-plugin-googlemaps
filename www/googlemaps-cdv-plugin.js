@@ -3,7 +3,7 @@ var MAP_CNT = 0;
 
 var argscheck = require('cordova/argscheck'),
     utils = require('cordova/utils'),
-    exec = require('cordova/exec'),
+    exec = require('./enqueuedCordova/exec'),
     event = require('./event'),
     common = require('./Common'),
     BaseClass = require('./BaseClass'),
