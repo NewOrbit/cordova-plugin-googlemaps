@@ -3,7 +3,7 @@ var MAP_CNT = 0;
 
 var argscheck = require('cordova/argscheck'),
     utils = require('cordova/utils'),
-    exec = require('./enqueuedCordova/exec'),
+    enqueuedCordova = require('./EnqueuedCordova'),
     event = require('./event'),
     common = require('./Common'),
     BaseClass = require('./BaseClass'),
@@ -31,6 +31,8 @@ var MapTypeId = require('./MapTypeId');
 var INTERVAL_TIMER = null;
 var MAPS = {};
 var saltHash = Math.floor(Math.random() * Date.now());
+
+var exec = enqueuedCordova.exec;
 
 /*****************************************************************************
  * To prevent strange things happen,

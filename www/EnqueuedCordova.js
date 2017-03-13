@@ -1,15 +1,14 @@
 var q = require('./q');
-var cordovaExec = require('./enqueuedCordova/exec');
+var cordovaExec = require('cordova/exec');
 
-var enqueuedCordova = function() {
+var queue = q.resolve();
 
-    var queue = q.fcall(function() {});
+var EnqueuedCordova = {};
 
-    var exec = function(success, error, service, action, args) {
-        queue = queue.then(function() { 
-            cordovaExec(success, error, service, action, args); 
-        });
-    }
+EnqueuedCordova.exec = function(success, error, service, action, args) {
+    queue = queue.then(function() { 
+        cordovaExec(success, error, service, action, args); 
+    });
 }
 
-module.exports = enqueuedCordova;
+module.exports = EnqueuedCordova;

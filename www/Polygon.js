@@ -1,9 +1,11 @@
 var argscheck = require('cordova/argscheck'),
     utils = require('cordova/utils'),
-    exec = require('./enqueuedCordova/exec'),
+    enqueuedCordova = require('./EnqueuedCordova'),
     common = require('./Common'),
     BaseClass = require('./BaseClass'),
     BaseArrayClass = require('./BaseArrayClass');
+
+var exec = enqueuedCordova.exec;
 
 /*****************************************************************************
  * Polygon Class

@@ -1,9 +1,10 @@
 var argscheck = require('cordova/argscheck'),
     utils = require('cordova/utils'),
-    exec = require('./enqueuedCordova/exec'),
+    enqueuedCordova = require('./EnqueuedCordova'),
     common = require('./Common'),
     LatLngBounds = require('./LatLngBounds'),
     BaseClass = require('./BaseClass');
+var exec = enqueuedCordova.exec;
 
 /*****************************************************************************
  * Circle Class

@@ -3,9 +3,11 @@
  *****************************************************************************/
  var argscheck = require('cordova/argscheck'),
      utils = require('cordova/utils'),
-     exec = require('./enqueuedCordova/exec'),
+     enqueuedCordova = require('./EnqueuedCordova'),
      common = require('./Common'),
      BaseClass = require('./BaseClass');
+
+var exec = enqueuedCordova.exec;
 
 var Geocoder = {};
 

@@ -1,6 +1,6 @@
 var argscheck = require('cordova/argscheck'),
     utils = require('cordova/utils'),
-    exec = require('./enqueuedCordova/exec'),
+    enqueuedCordova = require('./EnqueuedCordova'),
     common = require('./Common'),
     BaseClass = require('./BaseClass'),
     LatLng = require('./LatLng'),
@@ -17,6 +17,7 @@ var GroundOverlay = require('./GroundOverlay');
 var KmlOverlay = require('./KmlOverlay');
 var CameraPosition = require('./CameraPosition');
 
+var exec = enqueuedCordova.exec;
 
 /**
  * Google Maps model.

@@ -1,7 +1,9 @@
 var argscheck = require('cordova/argscheck'),
     utils = require('cordova/utils'),
-    exec = require('./enqueuedCordova/exec'),
+    enqueuedCordova = require('./EnqueuedCordova'),
     common = require('./Common');
+
+var exec = enqueuedCordova.exec;
 
 /*****************************************************************************
  * Config Class
