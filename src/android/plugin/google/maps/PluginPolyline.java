@@ -76,9 +76,7 @@ public class PluginPolyline extends MyPlugin implements MyPluginInterface  {
         self.objects.put(id, polyline);
 
         String boundsId = "polyline_bounds_" + polyline.getId();
-        try {
-          self.objects.put(boundsId, builder.build());
-        } catch (IllegalStateException ex) {}
+        self.objects.put(boundsId, builder.build());
 
         String propertyId = "polyline_property_" + polyline.getId();
         self.objects.put(propertyId, properties);
@@ -260,7 +258,7 @@ public class PluginPolyline extends MyPlugin implements MyPluginInterface  {
       }
     });
   }
-  public void removePointAt(final JSONArray args, final CallbackContext callbackContext) throws JSONException {
+  public void removePointAt(final JSONArray args, CallbackContext callbackContext) throws JSONException {
 
     String id = args.getString(0);
     final int index = args.getInt(1);
@@ -273,7 +271,6 @@ public class PluginPolyline extends MyPlugin implements MyPluginInterface  {
       @Override
       public void run() {
         List<LatLng> path = polyline.getPoints();
-        if (path.size() > index) {
           path.remove(index);
           if (path.size() > 0) {
             self.objects.put(propertyId, PluginUtil.getBoundsFromPath(path));
@@ -282,12 +279,11 @@ public class PluginPolyline extends MyPlugin implements MyPluginInterface  {
           }
 
           polyline.setPoints(path);
-        }
         sendNoResult(callbackContext);
       }
     });
   }
-  public void insertPointAt(final JSONArray args, final CallbackContext callbackContext) throws JSONException {
+  public void insertPointAt(final JSONArray args, CallbackContext callbackContext) throws JSONException {
 
     String id = args.getString(0);
     final int index = args.getInt(1);
@@ -313,7 +309,7 @@ public class PluginPolyline extends MyPlugin implements MyPluginInterface  {
       }
     });
   }
-  public void setPointAt(final JSONArray args, final CallbackContext callbackContext) throws JSONException {
+  public void setPointAt(final JSONArray args, CallbackContext callbackContext) throws JSONException {
 
     String id = args.getString(0);
     final int index = args.getInt(1);
@@ -327,15 +323,13 @@ public class PluginPolyline extends MyPlugin implements MyPluginInterface  {
       @Override
       public void run() {
         List<LatLng> path = polyline.getPoints();
-        if (path.size() > index) {
-          path.set(index, latLng);
+        path.set(index, latLng);
 
-          // Recalculate the polygon bounds
-          String propertyId = "polyline_bounds_" + polyline.getId();
-          self.objects.put(propertyId, PluginUtil.getBoundsFromPath(path));
+        // Recalculate the polygon bounds
+        String propertyId = "polyline_bounds_" + polyline.getId();
+        self.objects.put(propertyId, PluginUtil.getBoundsFromPath(path));
 
-          polyline.setPoints(path);
-        }
+        polyline.setPoints(path);
         sendNoResult(callbackContext);
       }
     });

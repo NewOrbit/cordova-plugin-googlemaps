@@ -71,14 +71,12 @@
   NSArray *points = [json objectForKey:@"points"];
   int i = 0;
   NSDictionary *latLng;
-  @try {
-    for (i = 0; i < points.count; i++) {
-        latLng = [points objectAtIndex:i];
-        [mutablePath
-          addCoordinate:
-            CLLocationCoordinate2DMake([[latLng objectForKey:@"lat"] floatValue], [[latLng objectForKey:@"lng"] floatValue])];
-    }
-  } @catch (NSException *e) {}
+  for (i = 0; i < points.count; i++) {
+      latLng = [points objectAtIndex:i];
+      [mutablePath
+        addCoordinate:
+          CLLocationCoordinate2DMake([[latLng objectForKey:@"lat"] floatValue], [[latLng objectForKey:@"lng"] floatValue])];
+  }
 
   dispatch_async(dispatch_get_main_queue(), ^{
 
