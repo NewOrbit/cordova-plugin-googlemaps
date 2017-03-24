@@ -258,7 +258,7 @@ public class PluginPolyline extends MyPlugin implements MyPluginInterface  {
       }
     });
   }
-  public void removePointAt(final JSONArray args, final CallbackContext callbackContext) throws JSONException {
+  public void removePointAt(final JSONArray args, CallbackContext callbackContext) throws JSONException {
 
     String id = args.getString(0);
     final int index = args.getInt(1);
@@ -281,7 +281,7 @@ public class PluginPolyline extends MyPlugin implements MyPluginInterface  {
           polyline.setPoints(path);
       }
     });
-    sendNoResult(callbackContext);
+    this.sendNoResult(callbackContext);
   }
   public void insertPointAt(final JSONArray args, CallbackContext callbackContext) throws JSONException {
 
@@ -307,7 +307,7 @@ public class PluginPolyline extends MyPlugin implements MyPluginInterface  {
         }
       }
     });
-    sendNoResult(callbackContext);
+    this.sendNoResult(callbackContext);
   }
   public void setPointAt(final JSONArray args, CallbackContext callbackContext) throws JSONException {
 
