@@ -96,7 +96,7 @@ public class PluginMarker extends MyPlugin implements MyPluginInterface  {
    * @throws JSONException 
    */
   @SuppressWarnings("unused")
-  public void create(final JSONArray args, final CallbackContext callbackContext) throws JSONException {
+  public synchronized void create(final JSONArray args, final CallbackContext callbackContext) throws JSONException {
 
     // Create an instance of Marker class
     final MarkerOptions markerOptions = new MarkerOptions();
@@ -644,7 +644,7 @@ public class PluginMarker extends MyPlugin implements MyPluginInterface  {
    * @param callbackContext
    * @throws JSONException 
    */
-  public void remove(final JSONArray args, final CallbackContext callbackContext) throws JSONException {
+  public synchronized void remove(final JSONArray args, final CallbackContext callbackContext) throws JSONException {
     final String id = args.getString(0);
     final Marker marker = this.getMarker(id);
     if (marker == null) {
