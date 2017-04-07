@@ -708,8 +708,6 @@ public class CordovaGoogleMaps extends CordovaPlugin implements ViewTreeObserver
     //------------------------------------------
     String mapId = args.getString(0);
     PluginMap pluginMap = new PluginMap();
-    pluginMap.privateInitialize(mapId, cordova, webView, null);
-    pluginMap.initialize(cordova, webView);
     pluginMap.mapCtrl = CordovaGoogleMaps.this;
     pluginMap.self = pluginMap;
     ((MyPlugin)pluginMap).CURRENT_PAGE_URL = CURRENT_URL;

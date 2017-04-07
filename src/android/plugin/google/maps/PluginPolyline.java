@@ -260,7 +260,7 @@ public class PluginPolyline extends MyPlugin implements MyPluginInterface  {
       }
     });
   }
-  public void removePointAt(final JSONArray args, final CallbackContext callbackContext) throws JSONException {
+  public void removePointAt(final JSONArray args, CallbackContext callbackContext) throws JSONException {
 
     String id = args.getString(0);
     final int index = args.getInt(1);
@@ -273,7 +273,6 @@ public class PluginPolyline extends MyPlugin implements MyPluginInterface  {
       @Override
       public void run() {
         List<LatLng> path = polyline.getPoints();
-        if (path.size() > index) {
           path.remove(index);
           if (path.size() > 0) {
             self.objects.put(propertyId, PluginUtil.getBoundsFromPath(path));
@@ -282,12 +281,11 @@ public class PluginPolyline extends MyPlugin implements MyPluginInterface  {
           }
 
           polyline.setPoints(path);
-        }
-        sendNoResult(callbackContext);
       }
     });
+    this.sendNoResult(callbackContext);
   }
-  public void insertPointAt(final JSONArray args, final CallbackContext callbackContext) throws JSONException {
+  public void insertPointAt(final JSONArray args, CallbackContext callbackContext) throws JSONException {
 
     String id = args.getString(0);
     final int index = args.getInt(1);
@@ -309,11 +307,11 @@ public class PluginPolyline extends MyPlugin implements MyPluginInterface  {
           polyline.setPoints(path);
           self.objects.put(propertyId, PluginUtil.getBoundsFromPath(path));
         }
-        sendNoResult(callbackContext);
       }
     });
+    this.sendNoResult(callbackContext);
   }
-  public void setPointAt(final JSONArray args, final CallbackContext callbackContext) throws JSONException {
+  public void setPointAt(final JSONArray args, CallbackContext callbackContext) throws JSONException {
 
     String id = args.getString(0);
     final int index = args.getInt(1);
@@ -327,18 +325,16 @@ public class PluginPolyline extends MyPlugin implements MyPluginInterface  {
       @Override
       public void run() {
         List<LatLng> path = polyline.getPoints();
-        if (path.size() > index) {
-          path.set(index, latLng);
+        path.set(index, latLng);
 
-          // Recalculate the polygon bounds
-          String propertyId = "polyline_bounds_" + polyline.getId();
-          self.objects.put(propertyId, PluginUtil.getBoundsFromPath(path));
+        // Recalculate the polygon bounds
+        String propertyId = "polyline_bounds_" + polyline.getId();
+        self.objects.put(propertyId, PluginUtil.getBoundsFromPath(path));
 
-          polyline.setPoints(path);
-        }
-        sendNoResult(callbackContext);
+        polyline.setPoints(path);
       }
     });
+    sendNoResult(callbackContext);
   }
 
   /**
