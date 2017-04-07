@@ -452,10 +452,6 @@ public class PluginMap extends MyPlugin implements OnMarkerClickListener,
       PluginEntry pluginEntry = new PluginEntry(pluginName, plugin);
       plugins.put(pluginName, pluginEntry);
       mapCtrl.pluginManager.addService(pluginEntry);
-
-      plugin.privateInitialize(pluginName, cordova, webView, null);
-
-      plugin.initialize(cordova, webView);
       ((MyPluginInterface)plugin).setPluginMap(PluginMap.this);
       MyPlugin myPlugin = (MyPlugin) plugin;
       myPlugin.self = (MyPlugin)plugin;
