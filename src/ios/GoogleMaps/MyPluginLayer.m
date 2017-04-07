@@ -339,35 +339,39 @@ BOOL hasCordovaStatusBar = NO;  // YES if the app has cordova-plugin-statusbar
         mapDivInfo = [self.pluginScrollView.debugView.HTMLNodes objectForKey:mapCtrl.mapDivId];
         mapDivDepth = [[mapDivInfo objectForKey:@"depth"] intValue];
       
-        for (NSString *domId in self.pluginScrollView.debugView.HTMLNodes) {
-            if ([mapCtrl.mapDivId isEqualToString:domId]) {
-                continue;
+        @try {
+            for (NSString *domId in self.pluginScrollView.debugView.HTMLNodes) {
+                if ([mapCtrl.mapDivId isEqualToString:domId]) {
+                    continue;
+                }
+            
+                domInfo = [self.pluginScrollView.debugView.HTMLNodes objectForKey:domId];
+                domDepth = [[domInfo objectForKey:@"depth"] intValue];
+                if (domDepth < mapDivDepth) {
+                    continue;
+                }
+                elementRect = [domInfo objectForKey:@"size"];
+                htmlElementRect = CGRectFromString(elementRect);
+                if (htmlElementRect.size.width == 0 || htmlElementRect.size.height == 0) {
+                    continue;
+                }
+            
+                //NSLog(@"----> domId = %@, %f, %f - %f, %f (%@ : %@)",
+                //                domId,
+                //                htmlElementRect.origin.x, htmlElementRect.origin.y,
+                //                htmlElementRect.size.width, htmlElementRect.size.height,
+                //                [domInfo objectForKey:@"tagName"],
+                //              [domInfo objectForKey:@"position"]);
+                if (clickPointAsHtml.x >= htmlElementRect.origin.x && clickPointAsHtml.x <= (htmlElementRect.origin.x + htmlElementRect.size.width) &&
+                    clickPointAsHtml.y >= htmlElementRect.origin.y && clickPointAsHtml.y <= (htmlElementRect.origin.y + htmlElementRect.size.height)) {
+                    isMapAction = NO;
+                    //NSLog(@"--> hit (%@) : (domId: %@, depth: %d) ", mapCtrl.mapId, domId, domDepth);
+                    break;
+                }
+            
             }
-        
-            domInfo = [self.pluginScrollView.debugView.HTMLNodes objectForKey:domId];
-            domDepth = [[domInfo objectForKey:@"depth"] intValue];
-            if (domDepth < mapDivDepth) {
-                continue;
-            }
-            elementRect = [domInfo objectForKey:@"size"];
-            htmlElementRect = CGRectFromString(elementRect);
-            if (htmlElementRect.size.width == 0 || htmlElementRect.size.height == 0) {
-                continue;
-            }
-        
-            //NSLog(@"----> domId = %@, %f, %f - %f, %f (%@ : %@)",
-            //                domId,
-            //                htmlElementRect.origin.x, htmlElementRect.origin.y,
-            //                htmlElementRect.size.width, htmlElementRect.size.height,
-            //                [domInfo objectForKey:@"tagName"],
-            //              [domInfo objectForKey:@"position"]);
-            if (clickPointAsHtml.x >= htmlElementRect.origin.x && clickPointAsHtml.x <= (htmlElementRect.origin.x + htmlElementRect.size.width) &&
-                clickPointAsHtml.y >= htmlElementRect.origin.y && clickPointAsHtml.y <= (htmlElementRect.origin.y + htmlElementRect.size.height)) {
-                isMapAction = NO;
-                //NSLog(@"--> hit (%@) : (domId: %@, depth: %d) ", mapCtrl.mapId, domId, domDepth);
-                break;
-            }
-        
+        } @catch (NSException *e) {
+            
         }
 
         if (isMapAction == NO) {
