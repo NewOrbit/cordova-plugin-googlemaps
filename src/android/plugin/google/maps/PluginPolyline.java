@@ -76,7 +76,9 @@ public class PluginPolyline extends MyPlugin implements MyPluginInterface  {
         self.objects.put(id, polyline);
 
         String boundsId = "polyline_bounds_" + polyline.getId();
-        self.objects.put(boundsId, builder.build());
+        try {
+          self.objects.put(boundsId, builder.build());
+        } catch (IllegalStateException ex) {}
 
         String propertyId = "polyline_property_" + polyline.getId();
         self.objects.put(propertyId, properties);
