@@ -124,11 +124,9 @@
     
     NSDictionary *initOptions = [command.arguments objectAtIndex:1];
     if ([initOptions valueForKey:@"camera"]) {
-        double delayInSeconds = 1;
-        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-            [self _setOptions:initOptions command:command];
-        });
+        // There was a delay of a second here which was supposed to fix something to do with the camera not pointing at the specified bounds.
+        // However, this caused a roadmap of the world to displayed for a second, and it seems to still work after removing.
+        [self _setOptions:initOptions command:command];
     } else {
         [self _setOptions:initOptions command:command];
     }
