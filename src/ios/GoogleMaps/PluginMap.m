@@ -49,8 +49,7 @@
   NSString *pluginName = [NSString stringWithFormat:@"%@", className];
   className = [NSString stringWithFormat:@"Plugin%@", className];
 
-
-  [self.loadPluginQueue addOperationWithBlock: ^{
+  @synchronized (self) {
 
       CDVPluginResult* pluginResult = nil;
       CDVPlugin<MyPlgunProtocol> *plugin;
@@ -86,7 +85,7 @@
           [cdvViewController.pluginsMap setValue:pluginId forKey:pluginId];
           [plugin pluginInitialize];
         
-  //NSLog(@"--->loadPlugin : %@ className : %@", pluginId, className);
+  //NSLog(@"--->loadPlugin : %@ className : %@, plugin : %@", pluginId, className, plugin);
           [self.mapCtrl.plugins setObject:plugin forKey:pluginId];
           [plugin setGoogleMapsViewController:self.mapCtrl];
           
@@ -103,12 +102,11 @@
                                            messageAsString:[NSString stringWithFormat:@"method not found: %@ in %@ class", @"create", className]];
           [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
       }
-  }];
+  }
 }
 
 - (void)getMap:(CDVInvokedUrlCommand*)command {
 
-    self.loadPluginQueue =  [NSOperationQueue new];
     self.executeQueue =  [NSOperationQueue new];
 
     if ([command.arguments count] == 1) {
@@ -205,12 +203,6 @@
     dispatch_async(dispatch_get_main_queue(), ^{
       [self.mapCtrl.map clear];
     });
-
-    if (self.loadPluginQueue != nil){
-        self.loadPluginQueue.suspended = YES;
-        [self.loadPluginQueue cancelAllOperations];
-        self.loadPluginQueue.suspended = NO;
-    }
 
   
     CDVViewController *cdvViewController = (CDVViewController*)self.viewController;
