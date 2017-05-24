@@ -206,6 +206,13 @@
 }
 
 /**
+ * @callback map plugin.google.maps.event.MAP_LOADED
+ */
+- (void) mapView:(GMSMapView *)mapView {
+  [self triggerMapEvent:@"map_loaded" coordinate:CLLocationCoordinate2DMake(0, 0)];
+}
+
+/**
  * @callback plugin.google.maps.event.CAMERA_MOVE_START
  */
 - (void) mapView:(GMSMapView *)mapView willMove:(BOOL)gesture
