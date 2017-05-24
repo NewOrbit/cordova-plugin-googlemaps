@@ -36,6 +36,7 @@ import com.google.android.gms.maps.GoogleMap.OnMapLongClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMarkerDragListener;
 import com.google.android.gms.maps.GoogleMap.OnMyLocationButtonClickListener;
+import com.google.android.gms.maps.GoogleMap.OnMapLoadedCallback;
 import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -78,7 +79,7 @@ import java.util.Set;
 public class PluginMap extends MyPlugin implements OnMarkerClickListener,
     OnInfoWindowClickListener, OnMapClickListener, OnMapLongClickListener,
     OnMarkerDragListener,
-    OnMyLocationButtonClickListener, OnIndoorStateChangeListener, InfoWindowAdapter,
+    OnMyLocationButtonClickListener, OnMapLoadedCallback, OnIndoorStateChangeListener, InfoWindowAdapter,
     GoogleMap.OnCameraIdleListener, GoogleMap.OnCameraMoveCanceledListener,
     GoogleMap.OnCameraMoveListener, GoogleMap.OnCameraMoveStartedListener,
     GoogleMap.OnInfoWindowLongClickListener, GoogleMap.OnInfoWindowCloseListener {
@@ -296,6 +297,7 @@ public class PluginMap extends MyPlugin implements OnMarkerClickListener,
               map.setOnMarkerClickListener(PluginMap.this);
               map.setOnMarkerDragListener(PluginMap.this);
               map.setOnMyLocationButtonClickListener(PluginMap.this);
+              map.setOnMapLoadedCallback(PluginMap.this);
               map.setOnIndoorStateChangeListener(PluginMap.this);
               map.setOnInfoWindowClickListener(PluginMap.this);
               map.setOnInfoWindowLongClickListener(PluginMap.this);
@@ -642,6 +644,7 @@ public class PluginMap extends MyPlugin implements OnMarkerClickListener,
                   map.setOnMapLongClickListener(null);
                   map.setOnMarkerClickListener(null);
                   map.setOnMyLocationButtonClickListener(null);
+                  map.setOnMapLoadedCallback(null);
                   map.setOnMarkerDragListener(null);
                 } catch (SecurityException e) {
                   e.printStackTrace();
@@ -1964,6 +1967,11 @@ public class PluginMap extends MyPlugin implements OnMarkerClickListener,
     marker.showInfoWindow();
     return true;
     //return false;
+  }
+
+  @Override
+  public void onMapLoaded() {
+    this.onMapEvent("MAP_LOADED", new LatLng(0, 0));
   }
 
   @Override
