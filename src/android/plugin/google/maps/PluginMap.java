@@ -1971,7 +1971,7 @@ public class PluginMap extends MyPlugin implements OnMarkerClickListener,
 
   @Override
   public void onMapLoaded() {
-    this.onMapEvent("MAP_LOADED", new LatLng(0, 0));
+    this.onMapEvent("map_loaded", new LatLng(0, 0));
   }
 
   @Override
