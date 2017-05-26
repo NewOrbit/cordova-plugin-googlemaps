@@ -208,7 +208,7 @@
 /**
  * @callback map plugin.google.maps.event.MAP_LOADED
  */
-- (void) mapView:(GMSMapView *)mapView {
+- (void) mapViewDidFinishTileRendering:(GMSMapView *)mapView {
   [self triggerMapEvent:@"map_loaded" coordinate:CLLocationCoordinate2DMake(0, 0)];
 }
 
